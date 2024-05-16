@@ -257,6 +257,6 @@ def main():
     if selected_wc_category:
         generate_word_cloud(data, selected_wc_category, stopwords)
 
-
+#
 if __name__ == "__main__":
     main()
