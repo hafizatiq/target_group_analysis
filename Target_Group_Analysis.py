@@ -1,71 +1,9 @@
 import streamlit as st
-import pickle
-import numpy as np
 import pandas as pd
 import seaborn as sns
 from wordcloud import WordCloud, STOPWORDS
 import plotly.express as px
 import matplotlib.pyplot as plt
-
-def load_pickle(file):
-    """Utility function to load pickle file."""
-    if file is not None:
-        return pickle.load(file)
-
-def predict(text, model, selector, vectorizer):
-    """Function to predict the class of the given text using the loaded model, selector, and vectorizer."""
-    # Transform the text using the loaded vectorizer and selector
-    text_transformed = selector.transform(vectorizer.transform([text]))
-    # Predict using the loaded model
-    prediction = model.predict(text_transformed)
-    return prediction[0]
-
-def uni_predict(text, model, vectorizer):
-    """Function to predict the class of the given text using the loaded model, selector, and vectorizer."""
-    # Transform the text using the loaded vectorizer and selector
-    text_transformed = vectorizer.transform([text])
-    # Predict using the loaded model
-    prediction = model.predict(text_transformed)
-    return prediction[0]
-
-# Streamlit interface
-st.title('Offensive Language Detection on Roman Urdu')
-
-# # File uploader for model, selector, and vectorizer
-# uploaded_model = st.file_uploader("Choose a model file (.pkl)", type="pkl")
-# uploaded_selector = st.file_uploader("Choose a selector file based on feature selection (.pkl)", type="pkl")
-# uploaded_vectorizer = st.file_uploader("Choose a vectorizer file (.pkl)", type="pkl")
-
-# # Text input for the text to be predicted
-# user_input = st.text_input("Enter text here to predict")
-
-# # Button to make prediction
-# if st.button("Predict with Feature Selection"):
-#     if uploaded_model is not None and uploaded_selector is not None and uploaded_vectorizer is not None:
-#         # Load the model, selector, and vectorizer
-#         model = load_pickle(uploaded_model)
-#         selector = load_pickle(uploaded_selector)
-#         vectorizer = load_pickle(uploaded_vectorizer)
-        
-#         # Make prediction
-#         prediction = predict(user_input, model, selector, vectorizer)
-#         st.success(f"The predicted output is: {prediction}")
-#     else:
-#         st.error("Please upload all required files (model, selector, vectorizer) to proceed with prediction.")
-
-# if st.button("Predict without Feature Selection"):
-#     if uploaded_model is not None and uploaded_vectorizer is not None:
-#         # Load the model, selector, and vectorizer
-#         model = load_pickle(uploaded_model)
-#         #selector = load_pickle(uploaded_selector)
-#         vectorizer = load_pickle(uploaded_vectorizer)
-        
-#         # Make prediction
-#         prediction = uni_predict(user_input, model, vectorizer)
-#         st.success(f"The predicted output is: {prediction}")
-#     else:
-#         st.error("Please upload all required files (model, selector, vectorizer) to proceed with prediction.")
-
 
 @st.cache_resource
 def load_data():
