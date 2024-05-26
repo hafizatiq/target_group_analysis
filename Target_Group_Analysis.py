@@ -10,7 +10,7 @@ from collections import Counter
 @st.cache_resource
 def load_data():
     # Load data here, adjust 'task_02_result.csv' to your actual data file path
-    df = pd.read_csv('C:/Streamlit/task_02_result.csv')
+    df = pd.read_csv('task_02_result.csv')
     return df
 
 def plot_target_groups_by_category(data):
