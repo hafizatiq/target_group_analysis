@@ -169,6 +169,7 @@ def plot_most_common_offensive_words_by_category(data, top_n=20):
         # Extract and flatten offensive words
         offensive_words = filtered_data['Offensive Words'].apply(lambda x: x.split(', '))
         flattened_words = list(itertools.chain(*offensive_words))
+        flattened_words = [word for word in flattened_words if word != 'no-offensive']
         
         # Count the frequency of each word
         word_counts = Counter(flattened_words)
@@ -234,10 +235,6 @@ def main():
     if selected_wc_category:
         generate_word_cloud(data, selected_wc_category, stopwords)
 
-
-    st.header("Dataset Overview")
-    st.write(data.head())
-
     # 1. Category Distribution
     st.header("Distribution of Offensive Categories")
     category_counts = data['Categories'].value_counts()
@@ -270,6 +267,7 @@ def main():
     st.header("Most Common Offensive Words")
     offensive_words = data['Offensive Words'].apply(lambda x: x.split(', '))
     flattened_words = list(itertools.chain(*offensive_words))
+    flattened_words = [word for word in flattened_words if word != 'no-offensive']
 
     word_counts = Counter(flattened_words)
     most_common_words = word_counts.most_common(20)
@@ -285,19 +283,6 @@ def main():
     st.pyplot(fig)
 
     st.write(pd.DataFrame(most_common_words, columns=['Offensive Word', 'Count']))
-
-    # 4. Co-occurrence of Categories and Target Groups
-    st.header("Co-occurrence of Categories and Target Groups")
-    co_occurrence_matrix = pd.crosstab(data['Categories'], data['Target Group'])
-
-    fig, ax = plt.subplots(figsize=(14, 8))
-    sns.heatmap(co_occurrence_matrix, annot=True, fmt="d", cmap="YlGnBu", ax=ax)
-    ax.set_title('Co-occurrence of Categories and Target Groups')
-    ax.set_xlabel('Target Group')
-    ax.set_ylabel('Categories')
-    st.pyplot(fig)
-
-    st.write(co_occurrence_matrix)
 
     # 5. Sentence Length Analysis
     st.header("Distribution of Sentence Lengths")
